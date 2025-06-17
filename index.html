@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>?</title>
+    <!-- Incluye Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define una fuente personalizada o utiliza una de las fuentes del sistema */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Estilos específicos si son necesarios, aunque Tailwind maneja la mayoría */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* Relación de aspecto 16:9 para videos responsivos */
+            height: 0;
+            overflow: hidden;
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen p-4">
+    <div class="flex flex-col items-center justify-center space-y-6 bg-gray-900 p-8 rounded-xl shadow-lg max-w-lg w-full text-center">
+        <!-- Título de la página -->
+        <h1 class="text-3xl font-bold mb-4">.. -. ... - .- --. .-. .- --</h1>
+
+        <!-- Contenedor para la entrada del código y el botón -->
+        <div id="unlock-section" class="flex flex-col space-y-4 w-full">
+            <input
+                type="password"
+                id="codeInput"
+                placeholder="Ingresa el código"
+                class="w-full p-3 bg-gray-800 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-gray-500 text-lg"
+            />
+            <button
+                id="unlockButton"
+                class="w-full bg-black hover:bg-white text-white font-bold py-3 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 text-lg shadow-md"
+            >
+               🔒
+            </button>
+            <p id="message" class="text-red-500 text-sm mt-2 hidden"></p>
+        </div>
+
+        <!-- Contenedor del video (inicialmente oculto) -->
+        <div id="video-section" class="hidden w-full">
+            <div class="video-container">
+                <!--
+                    Asegúrate de reemplazar 'https://www.w3schools.com/html/mov_bbb.mp4' con la URL de tu propio video.
+                    Puedes usar un video de prueba de dominio público para el ejemplo.
+                    También puedes subir un video a un servicio como GitHub Pages, Google Drive (compartiendo públicamente),
+                    o un servicio de alojamiento de videos y usar su URL directa.
+                -->
+                <video id="secretVideo" controls class="rounded-xl">
+                    <source src="Teaser anuncio.mp4" type="video/mp4">
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+            <p class="text-gray-400 text-sm mt-4">See you soon.</p>
+        </div>
+    </div>
+
+    <script>
+        // Obtiene referencias a los elementos del DOM
+        const codeInput = document.getElementById('codeInput');
+        const unlockButton = document.getElementById('unlockButton');
+        const unlockSection = document.getElementById('unlock-section');
+        const videoSection = document.getElementById('video-section');
+        const secretVideo = document.getElementById('secretVideo');
+        const message = document.getElementById('message');
+
+        
+        const CORRECT_CODE = "borntofly"; // Código que desbloqueará el video
+
+        // Agrega un escuchador de eventos al botón de desbloqueo
+        unlockButton.addEventListener('click', () => {
+            const enteredCode = codeInput.value; // Obtiene el valor ingresado por el usuario
+
+            // Compara el código ingresado con el código correcto (ignorando mayúsculas/minúsculas)
+            if (enteredCode.toUpperCase() === CORRECT_CODE.toUpperCase()) {
+                // Si el código es correcto:
+                unlockSection.classList.add('hidden'); // Oculta la sección de entrada de código
+                videoSection.classList.remove('hidden'); // Muestra la sección del video
+                secretVideo.play(); // Reproduce el video automáticamente
+                message.classList.add('hidden'); // Oculta cualquier mensaje de error previo
+            } else {
+                // Si el código es incorrecto:
+                message.textContent = "Código incorrecto. Inténtalo de nuevo."; // Muestra un mensaje de error
+                message.classList.remove('hidden'); // Hace visible el mensaje
+                codeInput.value = ''; // Limpia el campo de entrada
+            }
+        });
+
+        // Opcional: Permite desbloquear también presionando Enter en el campo de texto
+        codeInput.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+                unlockButton.click(); // Simula un clic en el botón
+            }
+        });
+    </script>
+</body>
+</html>
